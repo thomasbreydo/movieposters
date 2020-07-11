@@ -6,23 +6,36 @@ class MovieNotFound(Exception):
     pass
 
 
+class PosterNotFound(Exception):
+    pass
+
+
 def construct_imdb_search_url(title):
     return 'https://imdb.com/find?q=' + urllib.parse.quote_plus(title)
 
 
-def get_link_to_title_from_findList(findList_table):
+def get_link_to_title_from_findSection(findSection):
     try:
-        relative_link = findList_table.tr.a['href']  # /title/ttXXXXXXX
+        relative_link = findSection.table.tr.a['href']  # /title/ttXXXXXXX
     except AttributeError:
         raise MovieNotFound
     else:
         return 'https://imdb.com' + relative_link
 
 
+def is_titles_section(section):
+    try:
+        return section.h3.a['name'] == 'tt'
+    except AttributeError:
+        raise MovieNotFound
+
+
 def get_imdb_link_from_response(response):
     soup = BeautifulSoup(response.read(), features='lxml')
-    findList_table = soup.find('table', class_='findList')
-    return get_link_to_title_from_findList(findList_table)
+    for section in soup.find_all('div', class_='findSection'):
+        if is_titles_section(section):
+            return get_link_to_title_from_findSection(section)
+    raise MovieNotFound
 
 
 def get_imdb_link_of_title(title):
@@ -35,7 +48,10 @@ def get_imdb_link_of_title(title):
 
 
 def get_src_of_poster_div(div):
-    return div.a.img['src']
+    try:
+        return div.a.img['src']
+    except AttributeError:
+        raise PosterNotFound
 
 
 def get_poster_link_from_response(response):
@@ -51,4 +67,10 @@ def get_poster_of_imdb_link(link):
 
 def get_link_to_poster(title):
     imdb_link = get_imdb_link_of_title(title)
-    return get_poster_of_imdb_link(imdb_link)
+    try:
+        return get_poster_of_imdb_link(imdb_link)
+    except PosterNotFound:
+        raise PosterNotFound(f"{title!r} doesn't have a poster on IMDb")
+
+
+get_link_to_poster('james bond(adsjf)')

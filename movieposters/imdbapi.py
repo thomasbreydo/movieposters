@@ -4,7 +4,7 @@ from .errors import MovieNotFound, PosterNotFound
 
 
 def get_imdb_search_url(title):
-    return 'https://imdb.com/find?q=' + urllib.parse.quote_plus(title)
+    return 'https://imdb.com/find?s=tt&q=' + urllib.parse.quote_plus(title)
 
 
 def get_imdb_link_from_from_relative(link):
@@ -17,7 +17,11 @@ def get_imdb_link_from_id(id):
 
 
 def get_imdb_relative_link_from_id(id):
-    return f'/title/{id}/'
+    if isinstance(id, str):
+        return f'/title/{id}/'
+    elif isinstance(id, int):
+        return f'/title/tt{id:08}/'  # pad to 8 digits for future compatibility
+    raise ValueError('id must be int or str')
 
 
 def get_link_to_title_from_findSection(findSection):

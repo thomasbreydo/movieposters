@@ -1,3 +1,4 @@
-from .imdbapi import MovieNotFound, get_link_to_poster
+from .imdbapi import *
+from .errors import *
 
 __version__ = '0.0.2'

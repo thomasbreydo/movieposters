@@ -18,13 +18,13 @@ to install **movieposters**.
 See the example below:
 ```python
 >>> import movieposters as mp
->>> link = mp.get_link_to_poster('breakfast club')  # it's a long link
->>> pprint.pprint((link[:50], 
-...                link[50:100],
-...                link[100:]))
-('https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZT',
- 'MtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGde',
- 'QXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg')
+>>> link = mp.get_poster(title='breakfast club')
+>>> link == mp.get_poster(id='tt0088847')  # can also be found using movie's id
+True
+```
+```python
+>>> print(link)
+'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg'
 ```
 
 ## Movies not on IMDb

@@ -1,17 +1,23 @@
 import urllib
 from bs4 import BeautifulSoup
+from .errors import MovieNotFound, PosterNotFound
 
 
-class MovieNotFound(Exception):
-    pass
-
-
-class PosterNotFound(Exception):
-    pass
-
-
-def construct_imdb_search_url(title):
+def get_imdb_search_url(title):
     return 'https://imdb.com/find?q=' + urllib.parse.quote_plus(title)
+
+
+def get_imdb_link_from_from_relative(link):
+    return 'https://imdb.com' + link
+
+
+def get_imdb_link_from_id(id):
+    return get_imdb_link_from_from_relative(
+        get_imdb_relative_link_from_id(id))
+
+
+def get_imdb_relative_link_from_id(id):
+    return f'/title/{id}/'
 
 
 def get_link_to_title_from_findSection(findSection):
@@ -20,7 +26,7 @@ def get_link_to_title_from_findSection(findSection):
     except AttributeError:
         raise MovieNotFound
     else:
-        return 'https://imdb.com' + relative_link
+        return get_imdb_link_from_from_relative(relative_link)
 
 
 def is_titles_section(section):
@@ -38,8 +44,8 @@ def get_imdb_link_from_response(response):
     raise MovieNotFound
 
 
-def get_imdb_link_of_title(title):
-    searchurl = construct_imdb_search_url(title)
+def get_imdb_link_from_title(title):
+    searchurl = get_imdb_search_url(title)
     with urllib.request.urlopen(searchurl) as response:
         try:
             return get_imdb_link_from_response(response)
@@ -60,14 +66,26 @@ def get_poster_link_from_response(response):
     return get_src_of_poster_div(poster_div)
 
 
-def get_poster_of_imdb_link(link):
-    with urllib.request.urlopen(link) as response:
-        return get_poster_link_from_response(response)
-
-
-def get_link_to_poster(title):
-    imdb_link = get_imdb_link_of_title(title)
+def get_poster_from_imdb_link(link):
     try:
-        return get_poster_of_imdb_link(imdb_link)
+        with urllib.request.urlopen(link) as response:
+            return get_poster_link_from_response(response)
+    except urllib.error.HTTPError:
+        raise MovieNotFound
+
+
+def get_poster(title=None, id=None):
+    if title is not None:
+        imdb_link = get_imdb_link_from_title(title)
+    elif id is not None:
+        imdb_link = get_imdb_link_from_id(id)
+    else:
+        raise ValueError('one of [title, id] must be specified')
+    try:
+        return get_poster_from_imdb_link(imdb_link)
     except PosterNotFound:
-        raise PosterNotFound(f"{title!r} doesn't have a poster on IMDb")
+        raise PosterNotFound(f"{title if title is not None else id!r} doesn't "
+                             'have a poster on IMDb')
+    except MovieNotFound:
+        raise MovieNotFound(f'{title if title is not None else id!r} not found'
+                            ' on IMDb')

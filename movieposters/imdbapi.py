@@ -71,6 +71,3 @@ def get_link_to_poster(title):
         return get_poster_of_imdb_link(imdb_link)
     except PosterNotFound:
         raise PosterNotFound(f"{title!r} doesn't have a poster on IMDb")
-
-
-get_link_to_poster('james bond(adsjf)')

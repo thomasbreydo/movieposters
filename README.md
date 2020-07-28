@@ -30,7 +30,7 @@ True
 ```
 
 ## Movies not on IMDb
-If **movieposters** is *unable* to find the title on IMDb a `mp.errors.MovieNotFound` exception will be raised.
+If **movieposters** is *unable* to find the title on IMDb an `mp.errors.MovieNotFound` exception will be raised.
 
 ## Movies without posters
-If **movieposters** is *able* to find the title on IMDb but can't find its poster a `mp.errors.PosterNotFound` exception will be raised.
+If **movieposters** is *able* to find the title on IMDb but can't find its poster an `mp.errors.PosterNotFound` exception will be raised.

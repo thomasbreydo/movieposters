@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "movieposters"
-version = "0.0.5"
+version = "0.0.6"
 description = "A simple Python package to get the link a movie's poster given its title."
 authors = ["Thomas Breydo <tbreydo@gmail.com>"]
 license = "GPL-3.0-only"
@@ -20,6 +20,8 @@ lxml = "^4.9.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
+twine = "^4.0.1"
+build = "^0.8.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

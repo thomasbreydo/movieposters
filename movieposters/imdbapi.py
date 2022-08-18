@@ -1,4 +1,6 @@
-import urllib
+import urllib.parse
+import urllib.error
+import urllib.request
 from bs4 import BeautifulSoup
 from .errors import MovieNotFound, PosterNotFound
 
@@ -7,12 +9,12 @@ def get_imdb_search_url(title):
     return "https://imdb.com/find?s=tt&q=" + urllib.parse.quote_plus(title)
 
 
-def get_imdb_link_from_from_relative(link):
+def get_imdb_link_from_relative(link):
     return "https://imdb.com" + link
 
 
 def get_imdb_link_from_id(id):
-    return get_imdb_link_from_from_relative(get_imdb_relative_link_from_id(id))
+    return get_imdb_link_from_relative(get_imdb_relative_link_from_id(id))
 
 
 def get_imdb_relative_link_from_id(id):
@@ -29,7 +31,7 @@ def get_link_to_title_from_findSection(findSection):
     except AttributeError:
         raise MovieNotFound
     else:
-        return get_imdb_link_from_from_relative(relative_link)
+        return get_imdb_link_from_relative(relative_link)
 
 
 def is_titles_section(section):
@@ -58,14 +60,24 @@ def get_imdb_link_from_title(title):
 
 def get_src_of_poster_div(div):
     try:
-        return div.a.img["src"]
+        return _get_best_src_of_img(div.img)
     except AttributeError:
         raise PosterNotFound
 
 
+def _get_best_src_of_img(img):
+    try:
+        srcset = img["srcset"].split(", ")
+    except KeyError:
+        return img["src"]  # fallback
+
+    best_quality = srcset[-1]
+    return best_quality.split(" ")[0]
+
+
 def get_poster_link_from_response(response):
     soup = BeautifulSoup(response.read(), features="lxml")
-    poster_div = soup.find("div", class_="poster")
+    poster_div = soup.find("div", class_="ipc-media")
     return get_src_of_poster_div(poster_div)
 
 

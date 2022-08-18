@@ -17,7 +17,6 @@ include = ["README.md"]
 python = "^3.8"
 beautifulsoup4 = "^4.11.1"
 lxml = "^4.9.1"
-urllib3 = "^1.25.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

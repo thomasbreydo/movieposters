@@ -19,7 +19,7 @@ def get_imdb_relative_link_from_id(id):
     if isinstance(id, str):
         return f"/title/{id}/"
     elif isinstance(id, int):
-        return f"/title/tt{id:08}/"  # pad to 8 digits for future compatibility
+        return f"/title/tt{id:07}/"
     raise ValueError("id must be int or str")
 
 

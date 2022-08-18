@@ -1,7 +1,3 @@
-```diff
-- BROKEN AS OF OCT 2021. ACCEPTING PULL REQUESTS.
-```
-
 ## movieposters
 
 A simple Python package to get the link a movie's poster given its title.
@@ -21,16 +17,11 @@ to install **movieposters**.
 ## How to use
 See the example below:
 ```python
->>> import movieposters as mp
->>> link = mp.get_poster(title='breakfast club')
->>> link == mp.get_poster(id='tt0088847')  # can also be found using movie's id
-True
->>> link == mp.get_poster(id=88847)
-True
-```
-```python
->>> print(link)
-'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg'
+import movieposters as mp
+link = mp.get_poster(title='breakfast club')
+assert link == mp.get_poster(id='tt0088847')  # can also be found using movie's id
+assert link == mp.get_poster(id=88847)
+assert link == 'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg'
 ```
 
 #### Movies not on IMDb

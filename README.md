@@ -21,11 +21,12 @@ import movieposters as mp
 link = mp.get_poster(title='breakfast club')
 assert link == mp.get_poster(id='tt0088847')  # can also be found using movie's id
 assert link == mp.get_poster(id=88847)
-assert link == 'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_UX182_CR0,0,182,268_AL_.jpg'
+assert link == 'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00YzlkLTk3YjEtNTU1ZmQ5OTdhODZhXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_QL75_UX380_CR0,16,380,562_.jpg'
 ```
 
-#### Movies not on IMDb
-If **movieposters** is *unable* to find the title on IMDb an `mp.errors.MovieNotFound` exception will be raised.
+### Errors
 
-#### Movies without posters
-If **movieposters** is *able* to find the title on IMDb but can't find its poster an `mp.errors.PosterNotFound` exception will be raised.
+| Name                       |     | Meaning                                      |
+|----------------------------|:----|----------------------------------------------|
+| `mp.errors.MovieNotFound`  |     | Movie _**is not**_ on IMDb                   |
+| `mp.errors.PosterNotFound` |     | Movie _**is**_ on IMDb, but its poster isn't |

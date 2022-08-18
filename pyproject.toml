@@ -14,9 +14,9 @@ classifiers = [
 include = ["README.md"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
-beautifulsoup4 = "^4.9.0"
-lxml = "^4.5.0"
+python = "^3.8"
+beautifulsoup4 = "^4.11.1"
+lxml = "^4.9.1"
 urllib3 = "^1.25.9"
 
 [tool.poetry.dev-dependencies]

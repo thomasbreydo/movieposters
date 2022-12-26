@@ -26,7 +26,7 @@ assert link == 'https://m.media-amazon.com/images/M/MV5BOTM5N2ZmZTMtNjlmOS00Yzlk
 
 ### Errors
 
-| Name                       |     | Meaning                                      |
-|----------------------------|:----|----------------------------------------------|
-| `mp.errors.MovieNotFound`  |     | Movie _**is not**_ on IMDb                   |
-| `mp.errors.PosterNotFound` |     | Movie _**is**_ on IMDb, but its poster isn't |
+| Name                       | Meaning                                      |
+|----------------------------|----------------------------------------------|
+| `mp.errors.MovieNotFound`  | Movie _**is not**_ on IMDb                   |
+| `mp.errors.PosterNotFound` | Movie _**is**_ on IMDb, but its poster isn't |

@@ -6,7 +6,7 @@ from .errors import MovieNotFound, PosterNotFound
 
 
 def get_imdb_search_url(title):
-    return "https://imdb.com/find?s=tt&q=" + urllib.parse.quote_plus(title)
+    return "https://imdb.com/find/?s=tt&q=" + urllib.parse.quote_plus(title)
 
 
 def get_imdb_link_from_relative(link):

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "movieposters"
-version = "0.0.6"
+version = "0.0.7"
 description = "A simple Python package to get the link a movie's poster given its title."
 authors = ["Thomas Breydo <tbreydo@gmail.com>"]
 license = "GPL-3.0-only"

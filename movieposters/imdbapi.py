@@ -1,8 +1,15 @@
-import urllib.parse
 import urllib.error
+import urllib.parse
 import urllib.request
+
 from bs4 import BeautifulSoup
+
 from .errors import MovieNotFound, PosterNotFound
+from .headers import HEADERS
+
+
+def _create_request_with_headers(url):
+    return urllib.request.Request(url, headers=HEADERS)
 
 
 def get_imdb_search_url(title):
@@ -41,17 +48,21 @@ def is_titles_section(section):
         raise MovieNotFound
 
 
+def _is_relative_link_to_title(link):
+    return link.startswith("/title")
+
+
 def get_imdb_link_from_response(response):
     soup = BeautifulSoup(response.read(), features="lxml")
-    for section in soup.find_all("div", class_="findSection"):
-        if is_titles_section(section):
-            return get_link_to_title_from_findSection(section)
-    raise MovieNotFound
+    a_tag = soup.find("a", href=_is_relative_link_to_title)
+    if not a_tag:
+        raise MovieNotFound
+    return get_imdb_link_from_relative(a_tag["href"])
 
 
 def get_imdb_link_from_title(title):
     searchurl = get_imdb_search_url(title)
-    with urllib.request.urlopen(searchurl) as response:
+    with urllib.request.urlopen(_create_request_with_headers(searchurl)) as response:
         try:
             return get_imdb_link_from_response(response)
         except MovieNotFound:
@@ -83,7 +94,7 @@ def get_poster_link_from_response(response):
 
 def get_poster_from_imdb_link(link):
     try:
-        with urllib.request.urlopen(link) as response:
+        with urllib.request.urlopen(_create_request_with_headers(link)) as response:
             return get_poster_link_from_response(response)
     except urllib.error.HTTPError:
         raise MovieNotFound

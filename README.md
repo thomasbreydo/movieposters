@@ -2,9 +2,7 @@
 
 A simple Python package to get the link a movie's poster given its title.
 
-> Please consider starring the repo if this package is useful! 
-> 
-> Thanks :)
+> Please consider starring the repo if it's helpful!
 
 ## Installation
 

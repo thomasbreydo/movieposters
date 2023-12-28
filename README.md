@@ -2,6 +2,10 @@
 
 A simple Python package to get the link a movie's poster given its title.
 
+> Please consider starring the repo if this package is useful! 
+> 
+> Thanks :)
+
 ## Installation
 
 Installation has been made easy with PyPI. Depending on your system, you should either run
